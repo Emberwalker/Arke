@@ -3,7 +3,7 @@ from django.conf import settings
 
 class Vote(models.Model):
     question = models.CharField(max_length=512)
-    extra_description = models.CharField(max_length=4096)
+    extra_description = models.TextField(max_length=4096)
     submitter = models.ForeignKey(settings.AUTH_USER_MODEL)
 
 class Choice(models.Model):
