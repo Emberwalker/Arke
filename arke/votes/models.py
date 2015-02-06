@@ -9,5 +9,7 @@ class Vote(models.Model):
 class Choice(models.Model):
     question = models.ForeignKey(Vote)
     choice_text = models.CharField(max_length=512)
-    voter = models.ForeignKey(settings.AUTH_USER_MODEL, unique=True, null=True)
-    votes = models.IntegerField(default=0)
+
+class CastVote(models.Model):
+    choice = models.ForeignKey(Choice)
+    voter = models.ForeignKey(settings.AUTH_USER_MODEL)
