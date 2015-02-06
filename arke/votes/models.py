@@ -2,13 +2,21 @@ from django.db import models
 from django.conf import settings
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.name
+
+
 class Vote(models.Model):
     question = models.CharField(max_length=512)
-    extra_description = models.TextField(max_length=4096)
+    extra_description = models.TextField(max_length=4096, blank=True)
+    category = models.ForeignKey(Category, default=1)
     submitter = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     def __str__(self):
-        return 'Vote[{}/{}]'.format(self.submitter, self.question)
+        return '{}/{}'.format(self.submitter, self.question)
 
 
 class Choice(models.Model):
@@ -16,7 +24,7 @@ class Choice(models.Model):
     choice_text = models.CharField(max_length=512)
 
     def __str__(self):
-        return 'Choice[{}/{}]'.format(self.choice_text, self.question)
+        return '{}/{}'.format(self.choice_text, self.question)
 
 
 class CastVote(models.Model):
@@ -24,4 +32,4 @@ class CastVote(models.Model):
     voter = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     def __str__(self):
-        return 'CastVote[{}/{}]'.format(self.voter, self.choice)
+        return '{}/{}'.format(self.voter, self.choice)
