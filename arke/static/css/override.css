@@ -1,0 +1,19 @@
+.container .jumbotron {
+    border-radius: 5px;
+    /*background: url(/static/img/portal_tardis.png);*/
+    background-position: center center;
+    background-size: cover;
+}
+
+.container-main {
+    margin-top: 60px;
+    margin-bottom: 30px;
+}
+
+.table-override {
+    font-size: 16px;
+}
+
+.table .btn {
+    text-decoration: none;
+}
