@@ -1,0 +1,31 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Arke :: {% block title %}{% endblock %}</title>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap-override.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/override.css') }}">
+</head>
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="/" class="navbar-brand">Arke</a>
+                {% if user and user.authenticated %}
+                <p class="navbar-text">Logged in: {{user.username}}</p>
+                {% endif %}
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+            </div>
+        </div>
+    </div>
+
+    <div class="container container-main">
+        {% block body %}{% endblock %}
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual file as needed -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</body>
