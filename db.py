@@ -5,8 +5,7 @@ from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 from sqlalchemy.orm import sessionmaker, relationship, backref
 from sqlalchemy import create_engine, Column, Sequence, Integer, String, Boolean, ForeignKey
 
-from settings import DB_URL
-from arke import DEBUG
+from settings import DB_URL, DEBUG
 from util import trunc
 
 engine = create_engine(DB_URL, echo=DEBUG)
@@ -28,14 +27,20 @@ class User(Base):
 
 def get_user(uname):
     session = Session()
+    uname = uname.lower()
     try:
-        user = session.query(User).filter_by(username=uname).one()
+        user = session.query(User).filter_by(username=uname).scalar()
         return user
     except MultipleResultsFound as mrf:
         logging.error("Found multiple users for name {} ({})".format(uname, mrf))
-    except NoResultFound:
-        pass  # Ignore.
+    finally:
+        session.close()
     return None
+
+def has_superuser():
+    session = Session()
+    u = session.query(User).filter_by(is_superuser=True).scalar()
+    return not u is None
 
 
 # Core
@@ -102,6 +107,13 @@ class CastVote(Base):
     def __repr__(self):
         return 'CastVote<{}/{}>'.format(self.choice, self.submitter)
 
+
+# Helpers
+def write_to_db(obj):
+    session = Session()
+    session.add(obj)
+    session.commit()
+    session.close()
 
 # DB creation (must be LAST in file!)
 Base.metadata.create_all(engine)

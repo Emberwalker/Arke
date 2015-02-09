@@ -11,11 +11,16 @@
         <div class="container">
             <div class="navbar-header">
                 <a href="/" class="navbar-brand">Arke</a>
-                {% if user and user.authenticated %}
-                <p class="navbar-text">Logged in: {{user.username}}</p>
-                {% endif %}
             </div>
-            <div class="navbar-collapse collapse" id="navbar-main">
+            <div class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated() %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">{{current_user.get_id()}} <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/logout">Logout...</a></li>
+                    </ul>
+                </li>
+                {% endif %}
             </div>
         </div>
     </div>

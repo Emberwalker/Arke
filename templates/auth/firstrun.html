@@ -1,22 +1,32 @@
 {% extends "base.html" %}
-{% block title %}Login{% endblock %}
+{% block title %}First Run{% endblock %}
 {% block body %}
 <div class="panel panel-default panel-login">
     <div class="panel-heading">Create initial superuser</div>
+    {% if errors %}
+    <div class="alert alert-danger" role="alert">
+        <b>Some error occured...</b>
+        <ul>
+            {% for err in errors %}
+            <li>{{ err }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
     <div class="panel-body panel-login-inner">
         <p class="center-me"><b>An initial superuser is required for Arke to function.</b></p>
-        <form action="/login" method="post">
+        <form action="/firstrun" method="post">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" placeholder="Username"/>
+                <input type="text" class="form-control" name="username" placeholder="Username"/>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Password"/>
+                <input type="password" class="form-control" name="password" placeholder="Password"/>
             </div>
             <div class="form-group">
                 <label for="password-confirm">Password (again)</label>
-                <input type="password" class="form-control" id="password-confirm" placeholder="Password (again)"/>
+                <input type="password" class="form-control" name="password-confirm" placeholder="Password (again)"/>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Login</button>
         </form>

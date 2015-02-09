@@ -1,16 +1,12 @@
 import os
-try:
-    dbg = os.environ['DEBUG']
-    DEBUG = True
-except KeyError:
-    DEBUG = False
-
 from flask import Flask
-from settings import DB_URL
-from auth import auth
+from settings import DB_URL, DEBUG, SECRET_KEY
+from auth import auth, setup_auth
 from core import core
 
 app = Flask(__name__)
+app.secret_key = SECRET_KEY
+setup_auth(app)
 app.register_blueprint(auth)
 app.register_blueprint(core)
 
