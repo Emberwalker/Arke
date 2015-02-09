@@ -53,5 +53,5 @@ docs/_build/
 # PyBuilder
 target/
 
-# Django databases
+# Flat file databases
 *.sqlite3

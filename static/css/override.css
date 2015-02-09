@@ -24,3 +24,8 @@
     width: 100%;
 }
 
+.center-me {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
