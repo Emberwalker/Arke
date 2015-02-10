@@ -5,4 +5,30 @@
     <h1>Arke</h1>
     <p>Pseudoanonymised voting.</p>
 </div>
+<h2>Current votes by category</h2>
+{% for cat in categories %}
+{% if cat.votes|length > 0 %}
+<h3>{{cat.name}}</h3>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <td style="width: 1.5em">#</td>
+            <td style="min-width: 60%">Question</td>
+            <td style="width: 6em">Options #</td>
+            <td style="min-width: 30%">Current split</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vote in cat.votes %}
+        <tr>
+            <td>{{vote.id}}</td>
+            <td>{{vote.question}}</td>
+            <td>{{vote.choices|length}}</td>
+            <td>NYI</td> <!-- TODO: Render bar -->
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endfor %}
 {% endblock %}

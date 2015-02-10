@@ -41,7 +41,7 @@
         <tr class="tr-row">
             <td>{{user.id}}</td>
             {% if user.is_superuser %}
-            <td><b>{{user.username}}</b></td>
+            <td><span class="glyphicon glyphicon-flash"></span> <b>{{user.username}}</b></td>
             {% else %}
             <td>{{user.username}}</td>
             {% endif %}

@@ -64,7 +64,6 @@ class Category(Base):
     def __repr__(self):
         return 'Category<{}>'.format(self.name)
 
-
 def __setup_category():
     session = Session()
     try:
@@ -91,6 +90,11 @@ class Vote(Base):
     def __repr__(self):
         return 'Vote<{}/{}>'.format(self.submitter, trunc(self.question, 20))
 
+def get_active_votes():
+    session = Session()
+    vts = session.query(Vote).filter_by(is_open=True).all()
+    return vts
+
 
 class Choice(Base):
     __tablename__ = 'choice'
@@ -98,6 +102,7 @@ class Choice(Base):
     id = Column(Integer, Sequence('choice_id_seq'), primary_key=True)
     text = Column(String(128), nullable=False)
     vote_id = Column(Integer, ForeignKey('vote.id'), nullable=False)
+    colour = Column(String(7), nullable=False, default="#848484") # Yes, colour. I am British. Default is grey.
 
     vote = relationship("Vote", backref=backref('choices', order_by=id))
 
@@ -135,7 +140,6 @@ def delete_from_db(obj):
 def get_all(model):
     session = Session()
     stuff = session.query(model).all()
-    session.close()
     return stuff
 
 # DB creation (must be LAST in file!)
