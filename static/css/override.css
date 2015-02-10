@@ -30,3 +30,31 @@
     text-align: center;
     display: block;
 }
+
+.glyphicon-embiggen {
+    font-size: 50px;
+}
+
+.tr-row {
+    vertical-align: center;
+}
+
+.td-manage-id {
+    width: 1.2em;
+}
+
+.td-manage-acc {
+    width: auto;
+}
+
+.td-manage-ops {
+    width: 6em;
+}
+
+.txt-right {
+    text-align: right;
+}
+
+.btn-manage-margin {
+    margin-right: 0.5em;
+}

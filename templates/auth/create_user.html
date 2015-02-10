@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Create User{% endblock %}
+{% block body %}
+<div class="panel panel-default panel-login">
+    <div class="panel-heading">Create user</div>
+    {% if info %}
+    <div class="alert alert-success" role="alert">
+        <p>{{ info|safe }}</p>
+    </div>
+    {% endif %}
+    {% if errors %}
+    <div class="alert alert-danger" role="alert">
+        <b>Some error occured...</b>
+        <ul>
+            {% for err in errors %}
+            <li>{{ err|safe }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <div class="panel-body panel-login-inner">
+        <p class="center-me"><b>Add a new user to Arke.</b></p>
+        <form action="/create-user" method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" name="username" placeholder="Username"/>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" name="password" placeholder="Password"/>
+            </div>
+            <div class="form-group">
+                <label for="password-confirm">Password (again)</label>
+                <input type="password" class="form-control" name="password-confirm" placeholder="Password (again)"/>
+            </div>
+            <div class="alert alert-warning">
+                <p><span class="glyphicon glyphicon-eye-close glyphicon-embiggen center-me"></span></p>
+                <p class="center-me">
+                    <b>Warning:</b> Any user with superuser privileges can see who cast which vote, add/edit/remove votes and add users.<br/>
+                </p>
+                <p class="center-me"><i>Be careful who you grant superuser!</i></p>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="superuser"/> Grant superuser privileges
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Create</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

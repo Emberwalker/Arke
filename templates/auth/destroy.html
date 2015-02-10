@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Logout{% endblock %}
+{% block body %}
+<div class="panel panel-default panel-login">
+    <div class="panel-heading">Confirm destroy</div>
+    {% if errors %}
+    <div class="alert alert-danger" role="alert">
+        <b>Some error occured...</b>
+        <ul>
+            {% for err in errors %}
+            <li>{{ err }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <div class="panel-body panel-login-inner">
+        <h2 class="center-me">Destroy user '{{user.username}}'?</h2>
+        <div class="alert alert-warning">
+            <p><span class="glyphicon glyphicon-flash glyphicon-embiggen center-me"></span></p>
+            <p class="center-me">
+            <b>Warning:</b> This action cannot be undone, and removes <b>all</b> content created by this user, including votes!<br/>
+            </p>
+        </div>
+        <form action="{{ url_for('auth.destroy_user', uid=user.id) }}" method="POST">
+            <input type="hidden" name="uid" value="{{user.id}}"/>
+            <button type="submit" class="btn btn-danger center-me">Destroy</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

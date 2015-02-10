@@ -25,22 +25,33 @@ class User(Base):
         return 'User<{}/sudo={}>'.format(self.username, self.is_superuser)
 
 
-def get_user(uname):
+def get_user(id_or_name):
+    if id_or_name.isdigit():
+        try:
+            i = int(id_or_name)
+        except:
+            return None
+        return __get_user_by_id(i)
+    else:
+        return __get_user_by_name(id_or_name)
+
+def __get_user_by_name(uname):
     session = Session()
     uname = uname.lower()
-    try:
-        user = session.query(User).filter_by(username=uname).scalar()
-        return user
-    except MultipleResultsFound as mrf:
-        logging.error("Found multiple users for name {} ({})".format(uname, mrf))
-    finally:
-        session.close()
-    return None
+    user = session.query(User).filter_by(username=uname).scalar()
+    session.close()
+    return user
+
+def __get_user_by_id(i):
+    session = Session()
+    user = session.query(User).filter_by(id=i).scalar()
+    session.close()
+    return user
 
 def has_superuser():
     session = Session()
-    u = session.query(User).filter_by(is_superuser=True).scalar()
-    return not u is None
+    u = session.query(User).filter_by(is_superuser=True).count()
+    return u > 0
 
 
 # Core
@@ -114,6 +125,18 @@ def write_to_db(obj):
     session.add(obj)
     session.commit()
     session.close()
+
+def delete_from_db(obj):
+    session = Session()
+    session.delete(obj)
+    session.commit()
+    session.close()
+
+def get_all(model):
+    session = Session()
+    stuff = session.query(model).all()
+    session.close()
+    return stuff
 
 # DB creation (must be LAST in file!)
 Base.metadata.create_all(engine)

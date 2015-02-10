@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Account Management{% endblock %}
+{% block body %}
+{% if info %}
+<div class="alert alert-success" role="alert">
+    <p>{{ info|safe }}</p>
+</div>
+{% endif %}
+{% if errors %}
+<div class="alert alert-danger" role="alert">
+    <b>Some error occured...</b>
+    <ul>
+        {% for err in errors %}
+        <li>{{ err|safe }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<div class="container-fluid">
+    <div class="col-md-9">
+        <h2>Account Management</h2>
+    </div>
+    <div class="col-md-3">
+        <br/>
+        <a href="/create-user"><button type="submit" class="btn btn-success pull-right">Create Account</button></a>
+    </div>
+</div>
+
+<!-- Accounts -->
+<table class="table table-striped table-hover">
+    <thead>
+        <tr class="tr-row">
+            <td class="td-manage-id">#</td>
+            <td class="td-manage-acc">Account</td>
+            <td class="td-manage-ops txt-right">Operations</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr class="tr-row">
+            <td>{{user.id}}</td>
+            <td>{{user.username}}</td>
+            <td>
+                <a href="{{ url_for('auth.destroy_user', uid=user.username) }}"><button type="submit" class="btn btn-sm btn-danger btn-manage-margin pull-right"><span class="glyphicon glyphicon-remove"></span></button></a>
+                <a href="{{ url_for('auth.change_password', uid=user.username) }}"><button type="submit" class="btn btn-sm btn-warning btn-manage-margin pull-right"><span class="glyphicon glyphicon-lock"></span></button></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
