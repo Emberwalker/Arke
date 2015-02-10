@@ -40,10 +40,20 @@
         {% for user in users %}
         <tr class="tr-row">
             <td>{{user.id}}</td>
+            {% if user.is_superuser %}
+            <td><b>{{user.username}}</b></td>
+            {% else %}
             <td>{{user.username}}</td>
+            {% endif %}
+
             <td>
-                <a href="{{ url_for('auth.destroy_user', uid=user.username) }}"><button type="submit" class="btn btn-sm btn-danger btn-manage-margin pull-right"><span class="glyphicon glyphicon-remove"></span></button></a>
-                <a href="{{ url_for('auth.change_password', uid=user.username) }}"><button type="submit" class="btn btn-sm btn-warning btn-manage-margin pull-right"><span class="glyphicon glyphicon-lock"></span></button></a>
+                <a href="{{ url_for('auth.destroy_user', uid=user.username) }}"><button class="btn btn-sm btn-danger btn-manage-margin pull-right"><span class="glyphicon glyphicon-remove"></span></button></a>
+                <a href="{{ url_for('auth.change_password', uid=user.username) }}"><button class="btn btn-sm btn-warning btn-manage-margin pull-right"><span class="glyphicon glyphicon-lock"></span></button></a>
+                {% if user.is_superuser %}
+                <a href="{{ url_for('auth.demote_user', uid=user.username) }}"><button class="btn btn-sm btn-primary btn-manage-margin pull-right"><span class="glyphicon glyphicon-arrow-down"></span></button></a>
+                {% else %}
+                <a href="{{ url_for('auth.promote_user', uid=user.username) }}"><button class="btn btn-sm btn-primary btn-manage-margin pull-right"><span class="glyphicon glyphicon-arrow-up"></span></button></a>
+                {% endif %}
             </td>
         </tr>
         {% endfor %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Promote User{% endblock %}
+{% block body %}
+<div class="panel panel-default panel-login">
+    <div class="panel-heading">Confirm promotion</div>
+    <div class="panel-body panel-login-inner">
+        <h2 class="center-me">Promote user '{{user.username}}'?</h2>
+        <div class="alert alert-warning">
+            <p><span class="glyphicon glyphicon-eye-close glyphicon-embiggen center-me"></span></p>
+            <p class="center-me">
+            <b>Warning:</b> This will give this user access to account management as well as being able to see how votes have been cast.<br/>
+            <i>Be careful who you give superuser access to!</i>
+            </p>
+        </div>
+        <form action="{{ url_for('auth.promote_user', uid=user.id) }}" method="POST">
+            <input type="hidden" name="uid" value="{{user.id}}"/>
+            <button type="submit" class="btn btn-warning center-me">Promote</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

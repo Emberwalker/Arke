@@ -206,3 +206,44 @@ def change_password():
 
     return render_template('auth/change_password.html', user=user, errors=errs, info=info)
 
+@auth.route('/users/promote', methods=['GET', 'POST'])
+@login_required
+def promote_user():
+    if not current_user.is_superuser:
+        return redirect('/')
+
+    uid = request.args.get('uid', None)
+    if not uid:
+        return redirect(url_for('auth.manage_accounts'))
+    user = get_user(uid)
+    if not user:
+        return redirect(url_for('auth.manage_accounts'))
+
+    if request.method == 'POST':
+       user.is_superuser = True
+       uname = user.username
+       write_to_db(user)
+       return redirect(url_for('auth.manage_accounts', info="{} promoted.".format(uname)))
+
+    return render_template('auth/promote.html', user=user)
+
+@auth.route('/users/demote', methods=['GET', 'POST'])
+@login_required
+def demote_user():
+    if not current_user.is_superuser:
+        return redirect('/')
+
+    uid = request.args.get('uid', None)
+    if not uid:
+        return redirect(url_for('auth.manage_accounts'))
+    user = get_user(uid)
+    if not user:
+        return redirect(url_for('auth.manage_accounts'))
+
+    if request.method == 'POST':
+       user.is_superuser = False
+       uname = user.username
+       write_to_db(user)
+       return redirect(url_for('auth.manage_accounts', info="{} demoted.".format(uname)))
+
+    return render_template('auth/demote.html', user=user)

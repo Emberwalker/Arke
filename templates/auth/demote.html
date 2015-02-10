@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Promote User{% endblock %}
+{% block body %}
+<div class="panel panel-default panel-login">
+    <div class="panel-heading">Confirm demotion</div>
+    <div class="panel-body panel-login-inner">
+        <h2 class="center-me">Demote user '{{user.username}}'?</h2>
+        <div class="alert alert-danger">
+            <p><span class="glyphicon glyphicon-fire glyphicon-embiggen center-me"></span></p>
+            <p class="center-me">
+                If this installation is left with no superusers, it will fall back into first-run mode, which could open it to a malicious user getting administrative access. Ensure there is atleast one other superuser.
+            </p>
+        </div>
+        <form action="{{ url_for('auth.demote_user', uid=user.id) }}" method="POST">
+            <input type="hidden" name="uid" value="{{user.id}}"/>
+            <button type="submit" class="btn btn-warning center-me">Demote</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
